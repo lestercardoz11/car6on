@@ -27,7 +27,7 @@
 
 <body>
     <div>
-        @if (Route::has('login'))
+        <!--@if (Route::has('login'))
         <div class="top-right links">
             @auth
             <a href="{{ url('/home') }}">Home</a>
@@ -39,12 +39,14 @@
             @endif
             @endauth
         </div>
-        @endif
+        @endif-->
 
+        <!-- Title -->
         <nav class="navbar navbar-light bg-light justify-content-md-center">
             <h1>Car<h1 style="color: #008080">6<h1>on</h1>
         </nav>
 
+        <!-- Form -->
         <div class="container p-5">
             <div class="row">
                 <div class="col">
@@ -53,7 +55,7 @@
                     <form>
                         <div class="form-row">
                             <div class="input-group mb-3">
-                                <input type="number" class="form-control shadow-none" id="validationDefault01" required>
+                                <input type="number" class="form-control shadow-none" id="activityDistance" required>
                                 <div class="w-25 input-group-append">
                                     <span class="w-100 input-group-text" id="basic-addon2">Miles</span>
                                 </div>
@@ -64,7 +66,7 @@
                                 <div class="w-25 input-group-prepend">
                                     <label class="w-100 input-group-text">Mode</label>
                                 </div>
-                                <select id="inputState" class="form-control shadow-none">
+                                <select id="activityMode" class="form-control shadow-none">
                                     <option value="taxi">Taxi</option>
                                     <option value="dieselCar">Diesel Car</option>
                                     <option value="petrolCar">Petrol Car</option>
@@ -84,14 +86,10 @@
                                 <div class="w-25 input-group-prepend">
                                     <label class="w-100 input-group-text">Country</label>
                                 </div>
-                                <select id="inputState" class="form-control shadow-none">
-                                    <option value="aus">Australia</option>
-                                    <option value="chn">China</option>
-                                    <option value="fra">France</option>
-                                    <option value="ind">India</option>
-                                    <option value="omn">Oman</option>
+                                <select id="activityCountry" class="form-control shadow-none">
                                     <option value="gbr">United Kingdom</option>
                                     <option value="usa">United States of America</option>
+                                    <option value="def">Other Countries</option>
                                 </select>
                             </div>
                         </div>
