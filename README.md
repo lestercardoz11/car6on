@@ -7,7 +7,7 @@ This project uses <a href="https://triptocarbon.com/">Trip to Carbon API</a>, wh
 3. Create a database in MySQL, like, `lavarel`
 4. Migrate database using `php artisan migrate`
 
-## Local Development: `php artisan serve`
+### Local Development: `php artisan serve`
 
 ## About Laravel
 
