@@ -22,25 +22,16 @@
             height: 100vh;
             margin: 0;
         }
+
+        .message {
+            font: bold 45px serif;
+            background-color: #FFF;
+        }
     </style>
 </head>
 
 <body>
     <div>
-        <!--@if (Route::has('login'))
-        <div class="top-right links">
-            @auth
-            <a href="{{ url('/home') }}">Home</a>
-            @else
-            <a href="{{ route('login') }}">Login</a>
-
-            @if (Route::has('register'))
-            <a href="{{ route('register') }}">Register</a>
-            @endif
-            @endauth
-        </div>
-        @endif-->
-
         <!-- Title -->
         <nav class="navbar navbar-light bg-light justify-content-md-center">
             <h1>Car<h1 style="color: #008080">6<h1>on</h1>
@@ -52,21 +43,25 @@
                 <div class="col">
                 </div>
                 <div class="col-6">
-                    <form>
+                    <form method="POST" action="/json-api">
+
+                        <!-- Input data for Distance -->
                         <div class="form-row">
                             <div class="input-group mb-3">
-                                <input type="number" class="form-control shadow-none" id="activityDistance" required>
+                                <input type="number" class="form-control shadow-none" name="activityDistance" required>
                                 <div class="w-25 input-group-append">
                                     <span class="w-100 input-group-text" id="basic-addon2">Miles</span>
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Input data for Mode -->
                         <div class="form-row">
                             <div class="input-group mb-3">
                                 <div class="w-25 input-group-prepend">
                                     <label class="w-100 input-group-text">Mode</label>
                                 </div>
-                                <select id="activityMode" class="form-control shadow-none">
+                                <select name="activityMode" class="form-control shadow-none">
                                     <option value="taxi">Taxi</option>
                                     <option value="dieselCar">Diesel Car</option>
                                     <option value="petrolCar">Petrol Car</option>
@@ -81,20 +76,23 @@
                                 </select>
                             </div>
                         </div>
+
+                        <!-- Input data for Country -->
                         <div class="form-row">
                             <div class="input-group mb-3">
                                 <div class="w-25 input-group-prepend">
                                     <label class="w-100 input-group-text">Country</label>
                                 </div>
-                                <select id="activityCountry" class="form-control shadow-none">
+                                <select name="activityCountry" class="form-control shadow-none">
                                     <option value="gbr">United Kingdom</option>
                                     <option value="usa">United States of America</option>
                                     <option value="def">Other Countries</option>
                                 </select>
                             </div>
                         </div>
+                        <input type="hidden" name="_token" value="{{csrf_token()}}">
                         <div class="col-md-12 text-center">
-                            <button class="btn btn-dark shadow-none" type="submit">Calculate</button>
+                            <button class="btn btn-dark shadow-none" name="submit" onClick="{{action('FootprintController@index')}}" type="submit">Calculate</button>
                         </div>
                     </form>
                 </div>
@@ -102,8 +100,21 @@
                 </div>
             </div>
 
+            <!-- Check if data is retreived -->
+
+            @if(\Session::has('message'))
+            <div class="row">
+                <div class="col">
+                </div>
+                <div class="m-5 col-6 text-center alert message">
+                    <p>{{\Session::get('message')}} kg</p>
+                </div>
+                <div class="col">
+                </div>
+            </div>
+            @endif
+
         </div>
     </div>
 </body>
-
 </html>
