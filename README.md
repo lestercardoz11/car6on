@@ -5,7 +5,7 @@ This project uses <a href="https://triptocarbon.com/">Trip to Carbon API</a>, wh
 1. Download the Laravel installer using Composer: `composer global require laravel/installer`
 2. Once installed, this `composer create-project --prefer-dist laravel/laravel <project-name>` command will create a fresh Laravel installation in the directory you specify.
 3. Create a database in MySQL, like, `lavarel`
-4. Migrate Database using `php artisan migrate`
+4. Migrate database using `php artisan migrate`
 
 ## Local Development: `php artisan serve`
 
