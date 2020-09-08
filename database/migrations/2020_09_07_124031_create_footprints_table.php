@@ -14,10 +14,11 @@ class CreateFootprintsTable extends Migration
     public function up()
     {
         Schema::create('footprints', function (Blueprint $table) {
-            $table->increments('id');
-            $table->bigInteger('activityNumber');
+            $table->increments('id')->index();
+            $table->Integer('activityDistance');
             $table->string('activityMode');
             $table->string('activityCountry');
+            $table->double('carbonFootprint');
             $table->timestamps();
         });
     }
