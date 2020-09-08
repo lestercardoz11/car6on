@@ -13,6 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//Route to main page
 Route::get('/', function () {
     return view('main');
 });
+
+//Route to retrieve API data
+Route::post('/json-api', 'FootprintController@create');
+
+//Route to store data in the database
+Route::resource('store', 'FootprintController');
