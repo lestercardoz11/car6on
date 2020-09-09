@@ -1,5 +1,5 @@
 # Car6on
-This project uses <a href="https://triptocarbon.com/">Trip to Carbon API</a>, which calculates the carbon emission for travel. This project was created using Lavarel and MySQL.
+This project uses <a href="https://triptocarbon.com/">Trip to Carbon API</a>, which calculates the carbon emission for travel. This project was created using Laravel and MySQL.
 
 ## Setup
 1. Download the Laravel installer using Composer: `composer global require laravel/installer`
