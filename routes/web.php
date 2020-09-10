@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Cache;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,11 +16,17 @@ use Illuminate\Support\Facades\Route;
 
 //Route to main page
 Route::get('/', function () {
-    return view('main');
+
+    // Checks for cache data
+    if (Cache::has('footprints')) {
+        $carbonFootprint = Cache::get('footprints');
+        return view('calculate', ['carbonFootprint' => $carbonFootprint]);
+    } else {
+        return view('form');
+    }
 });
 
 //Route to retrieve API data
-Route::post('/json-api', 'FootprintController@create');
+Route::post('/requestAPI', 'FootprintController@requestAPI');
 
-//Route to store data in the database
-Route::resource('store', 'FootprintController');
+
