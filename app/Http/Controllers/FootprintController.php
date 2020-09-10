@@ -5,27 +5,13 @@ namespace App\Http\Controllers;
 use App\Footprint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-use Redirect;
+use Illuminate\Support\Facades\DB;
 
 use GuzzleHttp\Client;
 
 class FootprintController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
-    {
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Request $request)
+    public function requestAPI(Request $request)
     {
         //Retreive Form Data
         $activityDistance = $request->input('activityDistance');
@@ -37,14 +23,21 @@ class FootprintController extends Controller
         //API url
         $url = "https://api.triptocarbon.xyz/v1/footprint?activity=" . $activityDistance . "&activityType=miles&country=" . $activityCountry . "&mode=" . $activityMode;
 
+        //API response
         $response = $client->request('GET', $url);
-        $statusCode = $response->getStatusCode();
         $body = $response->getBody()->getContents();
+
+        //Get contents in json format
         $json = json_decode($body, true);
         $carbonFootprint = $json['carbonFootprint'];
 
-        //Proceed to database
-        return $this->store($request, $carbonFootprint);
+        $seconds = 60 * 60 * 24; //Cache data for 1 day
+        Cache::put('footprints', $carbonFootprint, $seconds); //Put data into cache 
+
+        //Store data into database
+        $this->store($request, $carbonFootprint);
+
+        return view('calculate', ['carbonFootprint' => $carbonFootprint]);
     }
 
     /**
@@ -53,7 +46,7 @@ class FootprintController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store($request, $carbonFootprint)
+    public function store($request, $carbonFootprint) : void
     {
         //Validate data to be inserted into database
         $this->validate($request, [
@@ -69,54 +62,8 @@ class FootprintController extends Controller
             'activityMode' => $request->input('activityMode'),
             'carbonFootprint' => $carbonFootprint
         ]);
-        $footprint->save();
+        $footprint->save(); //Save data into database
 
-        //Refresh with the calculated number
-        return redirect('/')->with('message',$carbonFootprint);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return;
     }
 }
